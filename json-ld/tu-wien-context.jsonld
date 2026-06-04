@@ -1,0 +1,51 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "tuw": "https://researchdata.tuwien.ac.at/vocab/",
+    "@vocab": "https://researchdata.tuwien.ac.at/vocab/",
+    "name": "schema:name",
+    "url": "schema:url",
+    "description": "schema:description",
+    "foundingDate": "schema:foundingDate",
+    "Organization": "schema:CollegeOrUniversity",
+    "University": {
+      "@id": "schema:CollegeOrUniversity"
+    },
+    "department": "schema:department",
+    "address": "schema:address",
+    "sameAs": "schema:sameAs",
+    "Dataset": "schema:Dataset",
+    "Record": {
+      "@id": "tuw:Record"
+    },
+    "record_id": {
+      "@id": "schema:identifier"
+    },
+    "title": "schema:name",
+    "creators": "schema:creator",
+    "publisher": "schema:publisher",
+    "publicationDate": "schema:datePublished",
+    "doi": {
+      "@id": "schema:identifier",
+      "@type": "@id"
+    },
+    "files": "schema:distribution",
+    "license": "schema:license",
+    "keywords": "schema:keywords",
+    "OAIRecord": {
+      "@id": "tuw:OAIRecord"
+    }
+  },
+  "@type": "CollegeOrUniversity",
+  "name": "TU Wien",
+  "url": "https://www.tuwien.at/en/",
+  "description": "TU Wien (Vienna University of Technology) is Austria's largest science and technology university, founded in 1815.",
+  "foundingDate": "1815",
+  "sameAs": [
+    "https://www.linkedin.com/school/tuwien",
+    "https://github.com/tuwien-csd",
+    "https://researchdata.tuwien.ac.at",
+    "https://repositum.tuwien.at"
+  ]
+}
