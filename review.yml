@@ -1,0 +1,51 @@
+---
+name: TU Wien
+description: TU Wien public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/tu-wien/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 3
+    summary: >-
+      Verified live, public, documented APIs centered on research
+      infrastructure: the TU Wien Research Data repository exposes a public
+      InvenioRDM REST API (records search/retrieve are public; writes need a
+      bearer token) plus an OAI-PMH endpoint, and the reposiTUm DSpace-CRIS
+      repository exposes OAI-PMH (the OpenAIRE variant responds 200; the bare
+      /oai/request path returned 500 without a verb). TISS, the website and the
+      LinkedIn school page resolve, but no single unified university developer
+      portal was found; GitHub presence is fragmented across departmental orgs
+      (e.g. tuwien-csd, TUWBIB). No endpoints were fabricated; every URL below
+      was probed live.
+    endpoints:
+      - url: https://researchdata.tuwien.ac.at/api/records
+        status: 200
+        note: InvenioRDM public records REST endpoint, returns JSON.
+      - url: https://researchdata.tuwien.ac.at/tuw/about/api
+        status: 200
+        note: Official Research Data API documentation page.
+      - url: https://researchdata.tuwien.ac.at/oai2d?verb=Identify
+        status: 200
+        note: Research Data OAI-PMH interface, valid Identify response.
+      - url: https://repositum.tuwien.at/oai/openaire?verb=Identify
+        status: 200
+        note: reposiTUm OAI-PMH (OpenAIRE format) valid response.
+      - url: https://repositum.tuwien.at/oai/request
+        status: 500
+        note: Bare OAI path errors without a verb; use a valid OAI endpoint+verb.
+      - url: https://repositum.tuwien.at/
+        status: 200
+        note: reposiTUm open-access repository home (DSpace-CRIS).
+      - url: https://tiss.tuwien.ac.at/
+        status: 200
+        note: TISS study/course system; no public documented API found.
+      - url: https://www.tuwien.at/en/
+        status: 200
+        note: Official university website.
+      - url: https://github.com/tuwien-csd
+        status: 200
+        note: Campus Software Development GitHub org; not a unified university org.
+      - url: https://www.linkedin.com/school/tuwien
+        status: 200
+        note: Official TU Wien LinkedIn school page.

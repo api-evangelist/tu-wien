@@ -1,0 +1,93 @@
+---
+aid: tu-wien
+name: TU Wien
+description: >-
+  TU Wien (Vienna University of Technology, TU Wien) is Austria's largest
+  science and technology university, founded in 1815, with more than 30,000
+  students and eight faculties. It is ranked #190 in the QS World University
+  Rankings 2025. Its public, documented developer footprint centers on research
+  infrastructure: the TU Wien Research Data repository exposes a public REST API
+  and an OAI-PMH interface built on InvenioRDM, and the reposiTUm open-access
+  institutional repository (DSpace-CRIS) exposes OAI-PMH for metadata harvesting.
+  Several departmental GitHub organizations publish open-source code, but there
+  is no single unified, public developer portal for the university as a whole.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/tu-wien/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research Data
+  - Open Access
+  - Repository
+  - OAI-PMH
+  - InvenioRDM
+  - Austria
+  - Europe
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: tu-wien:researchdata-api
+    name: TU Wien Research Data REST API
+    description: >-
+      Public REST API of the TU Wien Research Data repository, built on
+      InvenioRDM. Provides programmatic access to records, metadata, search and
+      file content. Read operations such as retrieving and searching records are
+      public; write operations (creating drafts, uploading files, submitting
+      curation requests) require a bearer access token generated from the user
+      account.
+    humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
+    baseURL: https://researchdata.tuwien.ac.at/api
+    tags: [ Research Data, InvenioRDM, REST, FAIR, Repository ]
+    properties:
+      - type: Documentation
+        url: https://researchdata.tuwien.ac.at/tuw/about/api
+      - type: Authentication
+        url: https://researchdata.tuwien.ac.at/tuw/about/api
+  - aid: tu-wien:researchdata-oai
+    name: TU Wien Research Data OAI-PMH
+    description: >-
+      OAI-PMH metadata harvesting interface for the TU Wien Research Data
+      repository (InvenioRDM), supporting standard verbs such as Identify,
+      ListRecords and GetRecord for harvesting dataset metadata.
+    humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
+    baseURL: https://researchdata.tuwien.ac.at/oai2d
+    tags: [ OAI-PMH, Metadata, Harvesting, Research Data ]
+    properties:
+      - type: Documentation
+        url: https://researchdata.tuwien.ac.at/tuw/about/api
+  - aid: tu-wien:repositum-oai
+    name: reposiTUm OAI-PMH
+    description: >-
+      OAI-PMH metadata harvesting interface for reposiTUm, the open-access
+      institutional repository of TU Wien, implemented on DSpace-CRIS by Campus
+      IT. Exposes metadata for scientific documents, theses, reports and TU Wien
+      Academic Press publications, including an OpenAIRE-formatted endpoint.
+    humanURL: https://repositum.tuwien.at/
+    baseURL: https://repositum.tuwien.at/oai/openaire
+    tags: [ OAI-PMH, Open Access, Repository, DSpace, OpenAIRE ]
+    properties:
+      - type: Documentation
+        url: https://www.it.tuwien.ac.at/en/services/research-projects-publications/repositum
+common:
+  - type: Website
+    url: https://www.tuwien.at/en/
+  - type: GitHub
+    url: https://github.com/tuwien-csd
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/tuwien
+  - type: Plans
+    url: plans/tu-wien-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/tu-wien-rate-limits.yml
+  - type: FinOps
+    url: finops/tu-wien-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
