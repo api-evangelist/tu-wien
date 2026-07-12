@@ -74,6 +74,10 @@ apis:
       - type: Documentation
         url: https://www.it.tuwien.ac.at/en/services/research-projects-publications/repositum
 common:
+  - type: VulnerabilityDisclosure
+    url: security/tu-wien-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/tu-wien-domain-security.yml
   - type: Website
     url: https://www.tuwien.at/en/
   - type: GitHub
