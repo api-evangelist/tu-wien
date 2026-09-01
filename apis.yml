@@ -224,7 +224,18 @@ apis:
       metadata anywhere in TU Wien's footprint.
     humanURL: https://forschungsdaten.at/ris/
     baseURL: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy
-    tags: [ Identity, OpenID Connect, OAuth, Keycloak, Research Information ]
+    tags:
+    - Identity
+    - OpenID Connect
+    - Authentication
+    - Keycloak
+    - Research Information
+    tags_raw:
+    - Identity
+    - OpenID Connect
+    - OAuth
+    - Keycloak
+    - Research Information
     properties:
       - type: OpenIDConnectDiscovery
         url: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
@@ -306,6 +317,9 @@ x-coverage:
     - url: https://researchdata.tuwien.ac.at/.well-known/openid-configuration
       status: 404
 common:
+  - type: License
+    name: EUPL-1.2
+    url: https://github.com/tuwien-csd/fundify/blob/develop/LICENSE
   - type: Website
     url: https://www.tuwien.at/en/
   - type: Documentation
