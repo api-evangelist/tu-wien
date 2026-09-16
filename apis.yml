@@ -346,7 +346,7 @@ common:
   - type: Documentation
     url: https://researchdata.tuwien.ac.at/tuw/about/api
   - type: APIReference
-    url: openapi/tu-wien-fundify-api-openapi.yml
+    url: openapi/_original/tu-wien-fundify-api-openapi.yml
   - type: GitHubOrganization
     url: https://github.com/tuwien-csd
   - type: ResearchRepository
