@@ -77,208 +77,229 @@ x-enrichment:
     surfaces the first pass missed (TISS, FUNDify, the RIS Synergy OIDC realm and the SAML identity
     provider), and re-labelled the library catalogue as a tenant relationship.
 apis:
-  - aid: tu-wien:researchdata-api
-    name: TU Wien Research Data REST API
-    x-operator: institution
-    x-operator-evidence: >-
-      researchdata.tuwien.ac.at is under TU Wien's own registrable domain and resolves to TU Wien
-      address space (128.130.35.218). The software is InvenioRDM, an open-source platform TU Wien
-      self-hosts and contributes to; the deployment, the data and the DOI prefix are TU Wien's.
-    description: >-
-      Public REST API of the TU Wien Research Data repository, running InvenioRDM 14.0. Records,
-      communities, affiliations, funders and vocabularies are readable anonymously; /api/names
-      returns 403 without a session; write operations require a personal bearer token. Records
-      carry DataCite DOIs under prefix 10.48436 and content-negotiate to
-      application/vnd.datacite.datacite+json.
-    humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
-    baseURL: https://researchdata.tuwien.ac.at/api
-    tags: [ Research Data, InvenioRDM, REST, FAIR, Repository, DataCite, ORCID ]
-    properties:
-      - type: Documentation
-        url: https://researchdata.tuwien.ac.at/tuw/about/api
-      - type: Authentication
-        url: authentication/tu-wien-authentication.yml
-      - type: Examples
-        url: examples/tu-wien-examples.yml
-      - type: Errors
-        url: errors/tu-wien-errors.yml
-  - aid: tu-wien:researchdata-oai
-    name: TU Wien Research Data OAI-PMH
-    x-operator: institution
-    x-operator-evidence: institution's own host; Identify names the TU Wien repository
-    description: >-
-      OAI-PMH 2.0 harvesting interface for the TU Wien Research Data repository. Verified live on
-      2026-08-30 with Identify and ListMetadataFormats; serves oai_dc, datacite and oai_datacite.
-    humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
-    baseURL: https://researchdata.tuwien.ac.at/oai2d
-    tags: [ OAI-PMH, Metadata, Harvesting, Research Data, DataCite ]
-    properties:
-      - type: Documentation
-        url: https://researchdata.tuwien.ac.at/tuw/about/api
-      - type: Conformance
-        url: conformance/tu-wien-education-standards.yml
-  - aid: tu-wien:repositum-oai
-    name: reposiTUm OAI-PMH
-    x-operator: institution
-    x-operator-evidence: >-
-      repositum.tuwien.at CNAMEs to repositum.tuwien.ac.at on TU Wien address space
-      (128.131.20.136); OAI Identify returns repositoryName "DSpace-CRIS at TU Wien" and
-      adminEmail dspace@tiss.tuwien.ac.at.
-    description: >-
-      OAI-PMH 2.0 interface for reposiTUm, the open-access institutional repository of TU Wien,
-      implemented on DSpace-CRIS by TU Wien Campus IT. Serves oai_dc and oai_openaire, with an
-      earliest datestamp of 2020-09-03. Only the /oai/openaire context answers; /oai/request and
-      /oai/driver both return HTTP 500 as of 2026-08-30.
-    humanURL: https://repositum.tuwien.at/
-    baseURL: https://repositum.tuwien.at/oai/openaire
-    tags: [ OAI-PMH, Open Access, Repository, DSpace, OpenAIRE ]
-    properties:
-      - type: Documentation
-        url: https://www.it.tuwien.ac.at/en/services/research-projects-publications/repositum
-      - type: Conformance
-        url: conformance/tu-wien-education-standards.yml
-  - aid: tu-wien:repositum-rest
-    name: reposiTUm DSpace REST API
-    x-operator: institution
-    x-operator-evidence: same TU Wien host as the OAI endpoint above
-    description: >-
-      The DSpace 7 REST layer of reposiTUm is deployed but fronted by a crawler filter: /server/api
-      returned 503 and /server/api/core/items returned 416 with the body "please respect nofollow
-      and noindex headers!" on 2026-08-30. Recorded as a live-but-blocked institution surface, not
-      as an absent one.
-    humanURL: https://repositum.tuwien.at/
-    baseURL: https://repositum.tuwien.at/server/api
-    tags: [ Repository, DSpace, REST, Open Access ]
-    properties:
-      - type: Errors
-        url: errors/tu-wien-errors.yml
-  - aid: tu-wien:tiss-api
-    name: TISS REST API
-    x-operator: institution
-    x-operator-evidence: >-
-      tiss.tuwien.ac.at is TU Wien's own student and staff information system on TU Wien address
-      space (128.130.32.110); its error documents declare the namespace
-      https://tiss.tuwien.ac.at/api/schema/error/v10.
-    description: >-
-      REST API of TISS, TU Wien's Information Systems & Services platform — the course catalogue,
-      curricula, org units, people and room data behind tiss.tuwien.ac.at. The edge is reachable
-      anonymously and returns a versioned, namespaced XML error document, but resource paths are not
-      publicly enumerable and https://tiss.tuwien.ac.at/api/dokumentation redirects to a TU Wien
-      Login page. Institution-operated and real; effectively closed to outside integrators.
-    humanURL: https://tiss.tuwien.ac.at/api/dokumentation
-    baseURL: https://tiss.tuwien.ac.at/api
-    tags: [ Course Catalog, Student Information System, REST, Registrar ]
-    properties:
-      - type: Authentication
-        url: authentication/tu-wien-authentication.yml
-      - type: Errors
-        url: errors/tu-wien-errors.yml
-  - aid: tu-wien:fundify-funding
-    name: FUNDify — RIS Synergy Funding API
-    x-operator: institution
-    x-operator-evidence: >-
-      The OpenAPI and the implementation live in TU Wien's own GitHub organisation
-      (github.com/tuwien-csd/fundify, EUPL-1.2) under the Java package at.ac.tuwien.fundify, written
-      by TU Wien Campus Software Development. The national instance runs for the ARISnet consortium
-      at fundify.arisnet.ac.at; TU Wien led the RIS Synergy project that defined the standard.
-    description: >-
-      TU Wien's own OpenAPI-described contract, and the only one in this repository. FUNDify
-      publishes Austrian funding programmes and calls and lets institutions annotate them for their
-      own researchers, implementing the RIS Synergy national Funding endpoint. Four GET operations,
-      32 object schemas. Anonymous calls return 401; the contract itself documents no 401 and no
-      error body, which rules/tu-wien-spectral.yml flags.
-    humanURL: https://github.com/tuwien-csd/fundify
-    baseURL: https://fundify.arisnet.ac.at/api/ris-synergy/funding/v1
-    tags: [ Funding, Research Information, RIS Synergy, OpenAPI, CERIF ]
-    properties:
-      - type: OpenAPI
-        url: openapi/tu-wien-fundify-api-openapi.yml
-      - type: OpenAPIOriginal
-        url: openapi/_original/tu-wien-fundify-api-openapi.yml
-      - type: JSONSchema
-        url: json-schema/tu-wien-fundify-funding.json
-      - type: Rules
-        url: rules/tu-wien-spectral.yml
-      - type: Vocabulary
-        url: vocabulary/tu-wien-vocabulary.yml
-      - type: Scopes
-        url: scopes/tu-wien-scopes.yml
-      - type: Authentication
-        url: authentication/tu-wien-authentication.yml
-      - type: Errors
-        url: errors/tu-wien-errors.yml
-      - type: Lifecycle
-        url: lifecycle/tu-wien-lifecycle.yml
-      - type: SourceCode
-        url: https://github.com/tuwien-csd/fundify
-  - aid: tu-wien:ris-synergy-oidc
-    name: RIS Synergy Identity Broker (OpenID Connect)
-    x-operator: institution
-    x-operator-evidence: >-
-      ris-synergy.csd.tuwien.ac.at is TU Wien Campus Software Development's own host
-      (128.131.33.132) and the OIDC issuer matches it exactly.
-    description: >-
-      Keycloak realm TU Wien operates as the identity broker for the Austrian RIS Synergy network,
-      with SAML brokering endpoints for eleven Austrian universities. Its OpenID Connect discovery
-      document is public and returned 200 on 2026-08-30 — the only machine-readable authorization
-      metadata anywhere in TU Wien's footprint.
-    humanURL: https://forschungsdaten.at/ris/
-    baseURL: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy
-    tags:
-    - Identity
-    - OpenID Connect
-    - Authentication
-    - Keycloak
-    - Research Information
-    tags_raw:
-    - Identity
-    - OpenID Connect
-    - OAuth
-    - Keycloak
-    - Research Information
-    properties:
-      - type: OpenIDConnectDiscovery
-        url: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
-      - type: Authentication
-        url: authentication/tu-wien-authentication.yml
-  - aid: tu-wien:saml-idp
-    name: TU Wien SAML 2.0 Identity Provider (eduID.at / eduGAIN)
-    x-operator: institution
-    x-operator-evidence: >-
-      entityID https://idp.zid.tuwien.ac.at/saml2 with an IDPSSODescriptor in the signed ACOnet /
-      eduID.at aggregate, OrganizationURL https://www.tuwien.ac.at/.
-    description: >-
-      TU Wien's institutional identity provider, registered in the Austrian ACOnet/eduID.at
-      federation and interfederated into eduGAIN. Machine-readable SAML 2.0 metadata, re-signed
-      daily by the federation operator. Seven TU Wien entities appear in the aggregate — this IdP
-      plus six service providers including the Vienna Scientific Cluster, TU coLAB, the research
-      data repository, the RIS Synergy broker and the library.
-    humanURL: https://eduid.at/
-    baseURL: https://idp.zid.tuwien.ac.at/simplesaml/saml2/idp/SSOService.php
-    tags: [ Identity Federation, SAML, Shibboleth, eduGAIN, Single Sign-On ]
-    properties:
-      - type: Metadata
-        url: https://eduid.at/md/aconet-registered.xml
-      - type: Conformance
-        url: conformance/tu-wien-education-standards.yml
-  - aid: tu-wien:catalogplus
-    name: CatalogPlus library discovery (Ex Libris Primo, OBVSG-hosted)
-    x-operator: tenant
-    x-operator-evidence: >-
-      catalogplus.tuwien.at is a TU Wien-branded hostname that CNAMEs to search-utw.obvsg.at, the
-      Austrian Library Network (OBVSG) consortium's Ex Libris Primo installation. TU Wien's
-      catalogue, TU Wien's holdings — Ex Libris's contract, run by OBVSG.
-    description: >-
-      TU Wien's library discovery layer. Recorded as a tenant relationship, which is a real
-      institutional fact, so that no Ex Libris contract is ever scored as TU Wien engineering. No
-      spec is saved under this repository; the Primo/Alma contracts belong in Ex Libris's own
-      profile.
-    humanURL: https://catalogplus.tuwien.at/
-    baseURL: https://catalogplus.tuwien.at/primo_library/libweb/UTW
-    tags: [ Library, Discovery, Primo, Ex Libris, OBVSG, Tenant ]
-    properties:
-      - type: Website
-        url: https://catalogplus.tuwien.at/
+- aid: tu-wien:researchdata-api
+  name: TU Wien Research Data REST API
+  x-operator: institution
+  x-operator-evidence: >-
+    researchdata.tuwien.ac.at is under TU Wien's own registrable domain and resolves to TU Wien address
+    space (128.130.35.218). The software is InvenioRDM, an open-source platform TU Wien self-hosts and
+    contributes to; the deployment, the data and the DOI prefix are TU Wien's.
+  description: >-
+    Public REST API of the TU Wien Research Data repository, running InvenioRDM 14.0. Records, communities,
+    affiliations, funders and vocabularies are readable anonymously; /api/names returns 403 without a
+    session; write operations require a personal bearer token. Records carry DataCite DOIs under prefix
+    10.48436 and content-negotiate to application/vnd.datacite.datacite+json.
+  humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
+  baseURL: https://researchdata.tuwien.ac.at/api
+  tags:
+  - Research Data
+  - InvenioRDM
+  - REST
+  - FAIR
+  - Repository
+  - DataCite
+  - ORCID
+  properties:
+  - type: Documentation
+    url: https://researchdata.tuwien.ac.at/tuw/about/api
+  - type: Authentication
+    url: authentication/tu-wien-authentication.yml
+  - type: Examples
+    url: examples/tu-wien-examples.yml
+  - type: Errors
+    url: errors/tu-wien-errors.yml
+- aid: tu-wien:researchdata-oai
+  name: TU Wien Research Data OAI-PMH
+  x-operator: institution
+  x-operator-evidence: institution's own host; Identify names the TU Wien repository
+  description: >-
+    OAI-PMH 2.0 harvesting interface for the TU Wien Research Data repository. Verified live on 2026-08-30
+    with Identify and ListMetadataFormats; serves oai_dc, datacite and oai_datacite.
+  humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
+  baseURL: https://researchdata.tuwien.ac.at/oai2d
+  tags:
+  - OAI-PMH
+  - Metadata
+  - Harvesting
+  - Research Data
+  - DataCite
+  properties:
+  - type: Documentation
+    url: https://researchdata.tuwien.ac.at/tuw/about/api
+  - type: Conformance
+    url: conformance/tu-wien-education-standards.yml
+- aid: tu-wien:repositum-oai
+  name: reposiTUm OAI-PMH
+  x-operator: institution
+  x-operator-evidence: >-
+    repositum.tuwien.at CNAMEs to repositum.tuwien.ac.at on TU Wien address space (128.131.20.136); OAI
+    Identify returns repositoryName "DSpace-CRIS at TU Wien" and adminEmail dspace@tiss.tuwien.ac.at.
+  description: >-
+    OAI-PMH 2.0 interface for reposiTUm, the open-access institutional repository of TU Wien, implemented
+    on DSpace-CRIS by TU Wien Campus IT. Serves oai_dc and oai_openaire, with an earliest datestamp of
+    2020-09-03. Only the /oai/openaire context answers; /oai/request and /oai/driver both return HTTP
+    500 as of 2026-08-30.
+  humanURL: https://repositum.tuwien.at/
+  baseURL: https://repositum.tuwien.at/oai/openaire
+  tags:
+  - OAI-PMH
+  - Open Access
+  - Repository
+  - DSpace
+  - OpenAIRE
+  properties:
+  - type: Documentation
+    url: https://www.it.tuwien.ac.at/en/services/research-projects-publications/repositum
+  - type: Conformance
+    url: conformance/tu-wien-education-standards.yml
+- aid: tu-wien:repositum-rest
+  name: reposiTUm DSpace REST API
+  x-operator: institution
+  x-operator-evidence: same TU Wien host as the OAI endpoint above
+  description: >-
+    The DSpace 7 REST layer of reposiTUm is deployed but fronted by a crawler filter: /server/api returned
+    503 and /server/api/core/items returned 416 with the body "please respect nofollow and noindex headers!"
+    on 2026-08-30. Recorded as a live-but-blocked institution surface, not as an absent one.
+  humanURL: https://repositum.tuwien.at/
+  baseURL: https://repositum.tuwien.at/server/api
+  tags:
+  - Repository
+  - DSpace
+  - REST
+  - Open Access
+  properties:
+  - type: Errors
+    url: errors/tu-wien-errors.yml
+- aid: tu-wien:tiss-api
+  name: TISS REST API
+  x-operator: institution
+  x-operator-evidence: >-
+    tiss.tuwien.ac.at is TU Wien's own student and staff information system on TU Wien address space (128.130.32.110);
+    its error documents declare the namespace https://tiss.tuwien.ac.at/api/schema/error/v10.
+  description: >-
+    REST API of TISS, TU Wien's Information Systems & Services platform — the course catalogue, curricula,
+    org units, people and room data behind tiss.tuwien.ac.at. The edge is reachable anonymously and returns
+    a versioned, namespaced XML error document, but resource paths are not publicly enumerable and https://tiss.tuwien.ac.at/api/dokumentation
+    redirects to a TU Wien Login page. Institution-operated and real; effectively closed to outside integrators.
+  humanURL: https://tiss.tuwien.ac.at/api/dokumentation
+  baseURL: https://tiss.tuwien.ac.at/api
+  tags:
+  - Course Catalog
+  - Student Information System
+  - REST
+  - Registrar
+  properties:
+  - type: Authentication
+    url: authentication/tu-wien-authentication.yml
+  - type: Errors
+    url: errors/tu-wien-errors.yml
+- aid: tu-wien:ris-synergy-oidc
+  name: RIS Synergy Identity Broker (OpenID Connect)
+  x-operator: institution
+  x-operator-evidence: >-
+    ris-synergy.csd.tuwien.ac.at is TU Wien Campus Software Development's own host (128.131.33.132) and
+    the OIDC issuer matches it exactly.
+  description: >-
+    Keycloak realm TU Wien operates as the identity broker for the Austrian RIS Synergy network, with
+    SAML brokering endpoints for eleven Austrian universities. Its OpenID Connect discovery document is
+    public and returned 200 on 2026-08-30 — the only machine-readable authorization metadata anywhere
+    in TU Wien's footprint.
+  humanURL: https://forschungsdaten.at/ris/
+  baseURL: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy
+  tags:
+  - Identity
+  - OpenID Connect
+  - Authentication
+  - Keycloak
+  - Research Information
+  tags_raw:
+  - Identity
+  - OpenID Connect
+  - OAuth
+  - Keycloak
+  - Research Information
+  properties:
+  - type: OpenIDConnectDiscovery
+    url: >-
+      https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
+  - type: Authentication
+    url: authentication/tu-wien-authentication.yml
+- aid: tu-wien:saml-idp
+  name: TU Wien SAML 2.0 Identity Provider (eduID.at / eduGAIN)
+  x-operator: institution
+  x-operator-evidence: >-
+    entityID https://idp.zid.tuwien.ac.at/saml2 with an IDPSSODescriptor in the signed ACOnet / eduID.at
+    aggregate, OrganizationURL https://www.tuwien.ac.at/.
+  description: >-
+    TU Wien's institutional identity provider, registered in the Austrian ACOnet/eduID.at federation and
+    interfederated into eduGAIN. Machine-readable SAML 2.0 metadata, re-signed daily by the federation
+    operator. Seven TU Wien entities appear in the aggregate — this IdP plus six service providers including
+    the Vienna Scientific Cluster, TU coLAB, the research data repository, the RIS Synergy broker and
+    the library.
+  humanURL: https://eduid.at/
+  baseURL: https://idp.zid.tuwien.ac.at/simplesaml/saml2/idp/SSOService.php
+  tags:
+  - Identity Federation
+  - SAML
+  - Shibboleth
+  - eduGAIN
+  - Single Sign-On
+  properties:
+  - type: Metadata
+    url: https://eduid.at/md/aconet-registered.xml
+  - type: Conformance
+    url: conformance/tu-wien-education-standards.yml
+- aid: tu-wien:catalogplus
+  name: CatalogPlus library discovery (Ex Libris Primo, OBVSG-hosted)
+  x-operator: tenant
+  x-operator-evidence: >-
+    catalogplus.tuwien.at is a TU Wien-branded hostname that CNAMEs to search-utw.obvsg.at, the Austrian
+    Library Network (OBVSG) consortium's Ex Libris Primo installation. TU Wien's catalogue, TU Wien's
+    holdings — Ex Libris's contract, run by OBVSG.
+  description: >-
+    TU Wien's library discovery layer. Recorded as a tenant relationship, which is a real institutional
+    fact, so that no Ex Libris contract is ever scored as TU Wien engineering. No spec is saved under
+    this repository; the Primo/Alma contracts belong in Ex Libris's own profile.
+  humanURL: https://catalogplus.tuwien.at/
+  baseURL: https://catalogplus.tuwien.at/primo_library/libweb/UTW
+  tags:
+  - Library
+  - Discovery
+  - Primo
+  - Ex Libris
+  - OBVSG
+  - Tenant
+  properties:
+  - type: Website
+    url: https://catalogplus.tuwien.at/
+- aid: tu-wien:tu-wien-public-api
+  name: TU Wien Public API
+  description: RIS Synergy Funding API
+  humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
+  baseURL: https://researchdata.tuwien.ac.at/api
+  tags:
+  - public
+  properties:
+  - type: OpenAPI
+    url: openapi/tu-wien-public-api-openapi.yml
+  - type: OpenAPIOriginal
+    url: openapi/_original/tu-wien-fundify-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/tu-wien-fundify-funding.json
+  - type: Rules
+    url: rules/tu-wien-spectral.yml
+  - type: Vocabulary
+    url: vocabulary/tu-wien-vocabulary.yml
+  - type: Scopes
+    url: scopes/tu-wien-scopes.yml
+  - type: Authentication
+    url: authentication/tu-wien-authentication.yml
+  - type: Errors
+    url: errors/tu-wien-errors.yml
+  - type: Lifecycle
+    url: lifecycle/tu-wien-lifecycle.yml
+  - type: SourceCode
+    url: https://github.com/tuwien-csd/fundify
 x-coverage:
   state: covered
   reason: covered
