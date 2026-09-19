@@ -243,6 +243,12 @@ apis:
   - SAML
   - Shibboleth
   - eduGAIN
+  - SSO
+  tags_raw:
+  - Identity Federation
+  - SAML
+  - Shibboleth
+  - eduGAIN
   - Single Sign-On
   properties:
   - type: Metadata
@@ -268,6 +274,13 @@ apis:
   - Primo
   - Ex Libris
   - OBVSG
+  - Tenants
+  tags_raw:
+  - Library
+  - Discovery
+  - Primo
+  - Ex Libris
+  - OBVSG
   - Tenant
   properties:
   - type: Website
@@ -278,6 +291,8 @@ apis:
   humanURL: https://researchdata.tuwien.ac.at/tuw/about/api
   baseURL: https://researchdata.tuwien.ac.at/api
   tags:
+  - Public
+  tags_raw:
   - public
   properties:
   - type: OpenAPI
