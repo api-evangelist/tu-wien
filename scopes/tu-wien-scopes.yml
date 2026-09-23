@@ -1,0 +1,43 @@
+---
+generated: '2026-08-30'
+method: derived
+source: openapi/_original/tu-wien-fundify-api-openapi.yml + probed OIDC discovery document
+note: >-
+  No TU Wien surface publishes a scope catalogue. The entries below are the access boundaries we
+  could actually observe, expressed as scopes; they are OUR reading of observed behaviour, not
+  TU Wien's declaration.
+scopes:
+  - name: researchdata:read
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    grant: anonymous
+    covers: [ GET /api/records, GET /api/communities, GET /api/vocabularies/*, GET /api/affiliations, GET /api/funders ]
+    evidence: probed 200 on 2026-08-30
+  - name: researchdata:names
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    grant: authenticated
+    covers: [ GET /api/names ]
+    evidence: probed 403 anonymously on 2026-08-30
+  - name: researchdata:write
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    grant: personal access token (bearer)
+    covers: [ draft creation, file upload, curation request submission ]
+    evidence: stated at https://researchdata.tuwien.ac.at/tuw/about/api (200)
+  - name: fundify:funding.read
+    surface: tu-wien:fundify-funding
+    x-operator: institution
+    grant: OIDC bearer token
+    covers:
+      - GET /api/ris-synergy/funding/v1/fundings
+      - GET /api/ris-synergy/funding/v1/fundings/{fundingRisId}
+      - GET /api/ris-synergy/funding/v1/annotated-calls/university/{universityRisId}
+      - GET /api/ris-synergy/funding/v1/annotated-calls/university/{universityRisId}/call/{callRisId}
+    evidence: probed 401 anonymously on 2026-08-30
+oidc_scopes_advertised:
+  source: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
+  status: 200
+  note: >-
+    The realm advertises the Keycloak default scope set (openid, profile, email, roles, and the
+    standard OIDC extras). No RIS Synergy resource scopes are advertised there.

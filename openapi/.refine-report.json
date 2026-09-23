@@ -1,0 +1,20 @@
+{
+  "provider": "tu-wien",
+  "sources": [
+    "_original/tu-wien-fundify-api-openapi.yml"
+  ],
+  "outputs": [
+    "tu-wien-public-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "tu-wien-fundify-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "tu-wien-public-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

@@ -1,0 +1,75 @@
+---
+generated: '2026-08-30'
+method: derived
+probe: true
+probe_note: >-
+  Written by API Evangelist from live HTTP probes run on 2026-08-30. `derived` is the authorship
+  vocabulary term; every status code recorded below was actually returned to us. TU Wien did not
+  publish this file.
+source: live probes 2026-08-30; every shape below was actually returned to us
+summary: >-
+  TU Wien surfaces return four different error vocabularies, one per system. There is no
+  institution-wide error contract and no RFC 9457 problem+json anywhere.
+error_shapes:
+  - surface: tu-wien:researchdata-api
+    x-operator: institution
+    media_type: application/json
+    shape: '{"status": <int>, "message": "<text>"}'
+    observed:
+      - status: 403
+        body: '{"status": 403, "message": "Permission denied."}'
+        url: https://researchdata.tuwien.ac.at/api/names?size=1
+    machine_readable: true
+  - surface: tu-wien:tiss-api
+    x-operator: institution
+    media_type: application/xml
+    shape: >-
+      <tuvienna xmlns="https://tiss.tuwien.ac.at/api/schema/error/v10" version="1.0">
+      <error httpStatus="..." timestamp="..."><message>...</message></error></tuvienna>
+    observed:
+      - status: 404
+        url: https://tiss.tuwien.ac.at/api/course/v22/all
+        detail: 'message leaks the internal base path https://tiss.tuwien.ac.at/remote/rest_v1/'
+    machine_readable: true
+    note: >-
+      TISS is the only TU Wien surface with a versioned, namespaced error schema. The namespace URL
+      https://tiss.tuwien.ac.at/api/schema/error/v10 does not itself resolve (404, HTML).
+  - surface: tu-wien:repositum-rest
+    x-operator: institution
+    media_type: text/html
+    shape: '<html><body><h1>416 please respect nofollow and noindex headers!</h1></body></html>'
+    observed:
+      - status: 416
+        url: https://repositum.tuwien.at/server/api/core/items?size=1
+      - status: 503
+        url: https://repositum.tuwien.at/server/api
+    machine_readable: false
+  - surface: tu-wien:repositum-oai
+    x-operator: institution
+    media_type: text/html
+    shape: Tomcat HTTP Status 500 page
+    observed:
+      - status: 500
+        url: https://repositum.tuwien.at/oai/request?verb=Identify
+      - status: 500
+        url: https://repositum.tuwien.at/oai/driver?verb=Identify
+    machine_readable: false
+    note: OAI-PMH defines its own <error code="..."> element; these contexts fail before reaching it.
+  - surface: tu-wien:fundify-funding
+    x-operator: institution
+    media_type: none
+    shape: bare 401 with a zero-length body
+    observed:
+      - status: 401
+        url: https://fundify.arisnet.ac.at/api/ris-synergy/funding/v1/fundings
+    machine_readable: false
+    contract_says:
+      source: openapi/_original/tu-wien-fundify-api-openapi.yml
+      documented_codes: [ '200', '400', '404', '500' ]
+      note: >-
+        The contract documents no 401 and no error response body schema, while the deployment
+        returns 401 as its first response to any anonymous caller. Contract/deployment mismatch.
+soft_404_warning: >-
+  www.tuwien.at returns a ~255KB styled HTML page on 404, and fundify.arisnet.ac.at returns its
+  Angular SPA shell with status 200 for every non-/api path. Never treat a 200 from either host as
+  evidence that a resource exists.

@@ -1,0 +1,89 @@
+---
+generated: '2026-08-30'
+method: derived
+probe: true
+probe_note: >-
+  Written by API Evangelist from live HTTP probes run on 2026-08-30. `derived` is the authorship
+  vocabulary term; every status code recorded below was actually returned to us. TU Wien did not
+  publish this file.
+source: live probes 2026-08-30 plus the FUNDify contract in openapi/_original/
+summary: >-
+  TU Wien has no single API gateway and no unified developer credential. Each institution-operated
+  surface carries its own scheme, and three of the five machine surfaces are anonymous-readable.
+schemes:
+  - surface: tu-wien:researchdata-api
+    x-operator: institution
+    scheme: none for read, bearer for write
+    detail: >-
+      InvenioRDM. GET /api/records, /api/communities, /api/vocabularies/*, /api/affiliations and
+      /api/funders answer anonymously. /api/names returns 403 anonymously. Write operations
+      (drafts, file upload, curation requests) require a personal access token issued from the user
+      account and sent as `Authorization: Bearer <token>`.
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/api/records?size=1
+        status: 200
+      - url: https://researchdata.tuwien.ac.at/api/names?size=1
+        status: 403
+      - url: https://researchdata.tuwien.ac.at/tuw/about/api
+        status: 200
+  - surface: tu-wien:researchdata-oai
+    x-operator: institution
+    scheme: none
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/oai2d?verb=Identify
+        status: 200
+  - surface: tu-wien:repositum-oai
+    x-operator: institution
+    scheme: none
+    evidence:
+      - url: https://repositum.tuwien.at/oai/openaire?verb=Identify
+        status: 200
+  - surface: tu-wien:repositum-rest
+    x-operator: institution
+    scheme: none declared — request refused by a crawler filter before authentication is reached
+    evidence:
+      - url: https://repositum.tuwien.at/server/api/core/items?size=1
+        status: 416
+      - url: https://repositum.tuwien.at/server/api
+        status: 503
+  - surface: tu-wien:tiss-api
+    x-operator: institution
+    scheme: TU Wien single sign-on
+    detail: >-
+      https://tiss.tuwien.ac.at/api/dokumentation redirects to a TU Wien Login page. The API edge is
+      reachable anonymously and returns a structured XML error document under the namespace
+      https://tiss.tuwien.ac.at/api/schema/error/v10, but resource paths are not publicly enumerable
+      and the documentation that would name them is behind the institutional IdP.
+    evidence:
+      - url: https://tiss.tuwien.ac.at/api/dokumentation
+        status: 200
+        detail: 'page title "TU Wien Login" (unauthenticated); "Cookie fehlt" without a session cookie'
+      - url: https://tiss.tuwien.ac.at/api/course/v22/all
+        status: 404
+        detail: RESTEasy XML error document — proves a live REST backend behind /api/course/
+  - surface: tu-wien:fundify-funding
+    x-operator: institution
+    scheme: OAuth 2.0 / OpenID Connect bearer token (Keycloak)
+    detail: >-
+      Anonymous calls to the funding routes return 401 with an empty body. The source repository
+      configures a Keycloak client against https://id.arisnet.ac.at/realms/fundify; the RIS Synergy
+      network broker realm that TU Wien itself operates publishes a public discovery document.
+    evidence:
+      - url: https://fundify.arisnet.ac.at/api/ris-synergy/funding/v1/fundings
+        status: 401
+      - url: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
+        status: 200
+  - surface: tu-wien:saml-idp
+    x-operator: institution
+    scheme: SAML 2.0 Web Browser SSO
+    detail: >-
+      entityID https://idp.zid.tuwien.ac.at/saml2, SimpleSAMLphp, registered in the ACOnet /
+      eduID.at federation and interfederated into eduGAIN. This is the credential behind almost
+      every gated TU Wien surface above.
+    evidence:
+      - url: https://eduid.at/md/aconet-registered.xml
+        status: 200
+not_found:
+  - api key issuance page
+  - developer portal registration
+  - OAuth client self-registration on any TU Wien host

@@ -1,0 +1,73 @@
+---
+generated: '2026-08-30'
+method: derived
+probe: true
+probe_note: >-
+  Written by API Evangelist from live HTTP probes run on 2026-08-30. `derived` is the authorship
+  vocabulary term; every status code recorded below was actually returned to us. TU Wien did not
+  publish this file.
+source: version strings and metadata read from each live surface on 2026-08-30
+summary: >-
+  TU Wien publishes no deprecation policy, no changelog and no status page for any API surface.
+  Versioning is visible only as path segments and generator strings.
+surfaces:
+  - surface: tu-wien:researchdata-api
+    x-operator: institution
+    versioning: none in the path; platform version in the HTML generator meta tag
+    current: InvenioRDM 14.0
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/tuw/about/api
+        status: 200
+        detail: '<meta name="generator" content="InvenioRDM 14.0">'
+    deprecation_policy: not found
+    changelog: not found
+  - surface: tu-wien:researchdata-oai
+    x-operator: institution
+    versioning: OAI-PMH protocolVersion 2.0
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/oai2d?verb=Identify
+        status: 200
+  - surface: tu-wien:repositum-oai
+    x-operator: institution
+    versioning: OAI-PMH protocolVersion 2.0
+    earliest_datestamp: '2020-09-03T08:56:09Z'
+    evidence:
+      - url: https://repositum.tuwien.at/oai/openaire?verb=Identify
+        status: 200
+    known_defect: /oai/request and /oai/driver return HTTP 500 (probed 2026-08-30)
+  - surface: tu-wien:tiss-api
+    x-operator: institution
+    versioning: path segment — /api/<resource>/v22/, error schema v10
+    evidence:
+      - url: https://tiss.tuwien.ac.at/api/course/v22/all
+        status: 404
+        detail: error document declares namespace .../api/schema/error/v10
+    note: v22 implies a long-lived versioning discipline, but no version history is published.
+  - surface: tu-wien:fundify-funding
+    x-operator: institution
+    versioning: path segment /v1/ plus info.version v1.0 in the contract
+    source_activity:
+      repository: https://github.com/tuwien-csd/fundify
+      license: EUPL-1.2
+      spec_last_changed: '2026-05-28 (commit 686076c0066344c24a1040e9f93e3856b78503e7)'
+      repo_last_pushed: '2026-08-27'
+    note: >-
+      The only TU Wien API surface with a public, dated change history — because the source is on
+      GitHub, not because TU Wien publishes a changelog.
+  - surface: tu-wien:ris-synergy-oidc
+    x-operator: institution
+    versioning: Keycloak realm, OIDC discovery document
+    evidence:
+      - url: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
+        status: 200
+  - surface: tu-wien:saml-idp
+    x-operator: institution
+    versioning: SAML 2.0; federation metadata re-signed daily by ACOnet with a 14-day validity window
+    evidence:
+      - url: https://eduid.at/md/aconet-registered.xml
+        status: 200
+not_found:
+  - status page for any TU Wien API
+  - deprecation or sunset policy
+  - published API changelog
+  - RFC 8594 Sunset or Deprecation headers on any probed response

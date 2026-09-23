@@ -1,0 +1,73 @@
+---
+# Spectral ruleset for TU Wien's own contract (FUNDify / RIS Synergy Funding).
+# generated: '2026-08-30'
+# method: generated
+# source: authored by API Evangelist against openapi/_original/tu-wien-fundify-api-openapi.yml
+# x-operator: institution — the contract these rules lint is TU Wien's; the rules are ours.
+extends: [[spectral:oas, all]]
+rules:
+  tu-wien-servers-declared:
+    description: >-
+      The published FUNDify contract carries no servers[] block, so a consumer cannot learn the base
+      URL from the document. The national instance is fundify.arisnet.ac.at (probed 401 on the
+      funding route, 2026-08-30).
+    message: '{{description}}'
+    given: $
+    severity: error
+    then:
+      field: servers
+      function: truthy
+  tu-wien-auth-declared:
+    description: >-
+      Anonymous calls to the funding routes return 401, but the contract declares no
+      securitySchemes and no security requirement.
+    message: '{{description}}'
+    given: $.components
+    severity: error
+    then:
+      field: securitySchemes
+      function: truthy
+  tu-wien-401-documented:
+    description: >-
+      Every operation is protected in deployment yet documents only 200/400/404/500. A 401 response
+      must be documented.
+    message: '{{description}}'
+    given: $.paths[*][get].responses
+    severity: error
+    then:
+      field: '401'
+      function: truthy
+  tu-wien-error-schema:
+    description: >-
+      400/404/500 responses carry a description but no content schema, so error handling cannot be
+      generated from the contract.
+    message: '{{description}}'
+    given: $.paths[*][*].responses['400','404','500']
+    severity: warn
+    then:
+      field: content
+      function: truthy
+  tu-wien-contact-present:
+    description: TU Wien Campus Software Development is not named in info.contact.
+    message: '{{description}}'
+    given: $.info
+    severity: warn
+    then:
+      field: contact
+      function: truthy
+  tu-wien-license-present:
+    description: The repository is EUPL-1.2 licensed but the contract does not say so.
+    message: '{{description}}'
+    given: $.info
+    severity: warn
+    then:
+      field: license
+      function: truthy
+  tu-wien-operation-examples:
+    description: No operation carries a response example, so no mock can be generated from the contract.
+    message: '{{description}}'
+    given: $.paths[*][*].responses['200'].content[*]
+    severity: warn
+    then:
+      field: example
+      function: truthy

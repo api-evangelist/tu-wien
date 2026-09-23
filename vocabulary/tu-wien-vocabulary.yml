@@ -1,0 +1,147 @@
+---
+# TU Wien — controlled vocabularies observed on institution-operated surfaces.
+generated: '2026-08-30'
+method: derived
+source: >-
+  enum members lifted verbatim from openapi/_original/tu-wien-fundify-api-openapi.yml, plus
+  metadataPrefix values returned by the two live OAI-PMH endpoints on 2026-08-30.
+x-operator: institution
+vocabularies:
+  - name: RIS Synergy funding vocabularies
+    surface: tu-wien:fundify-funding
+    x-operator: institution
+    authority: >-
+      Defined by the RIS Synergy national standard and published as vocabulary pages at
+      documentation.forschungsdaten.at; implemented by TU Wien in FUNDify.
+    terms:
+      RisCareerStage:
+        - EXPERTS
+        - STUDENTS
+        - DOCTORAL_STUDENTS
+        - EARLY_STAGE_RESEARCHERS
+        - MID_CAREER_RESEARCHERS
+        - ESTABLISHED_RESEARCHERS
+        - UNDERGRADUATE_STUDENTS
+        - GRADUATE_STUDENTS
+        - POSTGRADUATE_STUDENTS
+        - POSTDOCTORAL_RESEARCHERS
+        - SCIENTISTS
+        - SCIENTIFIC_INSTITUTION
+      RisDecisionProcess:
+        - PEER_REVIEW
+        - JURY
+        - BOARD_OF_TRUSTEES
+      RisEligibleApplicantsRegion:
+        - VIENNA
+        - BURGENLAND
+        - LOWER_AUSTRIA
+        - CARINTHIA
+        - UPPER_AUSTRIA
+        - SALZBURG
+        - STYRIA
+        - TYROL
+        - VORARLBERG
+      RisEligibleApplicantsScope:
+        - NATIONAL
+        - REGIONAL
+      RisFundingCharacteristic:
+        - INTERNATIONAL_PROGRAMME
+        - BILATERAL_PROGRAMME
+        - NATIONAL_PROGRAMME
+        - INDIVIDUAL_PROJECT
+        - CONSORTIUM
+        - SCIENTIFIC_PROGRAMME
+        - COOPERATIVE_PROGRAMME
+        - PERSONAL_GRANT
+        - PROJECT_FUNDING
+        - INFRASTRUCTURE
+        - NETWORKING
+        - MOBILITY_PROGRAMME
+      RisFundingType:
+        - PROGRAMME
+        - CALL
+        - ONGOING_CALL
+        - RESEARCH_CONTRACT
+        - AWARD
+        - GRANT
+        - SCHOLARSHIP
+        - SEMESTER_GRANT
+        - SUMMER_GRANT
+        - PRACTICAL_TRAINING
+        - SUBSIDY
+        - RESEARCH_ALLOWANCE
+      RisIdentifierTypeEnum:
+        - CROSSREF_GRANTID
+        - PROJECT_NUMBER
+        - APPLICATION_NUMBER
+        - ORCID
+        - ROR
+        - RINGGOLD
+        - RIS_SYNERGY
+      RisLegalType:
+        - PROJECT26
+        - PROJECT27
+        - INDIV
+      RisLevelEnum:
+        - LEVEL_1
+        - LEVEL_2
+        - Level_3
+      RisOrganisationFundingRoleEnum:
+        - EXECUTIVE_ORGANISATION
+        - JOINT_CALL_PARTNER
+      RisOrganisationTypeEnum:
+        - UNIVERSITY
+        - VICE_RECTORATE
+        - FACULTY
+        - SCHOOL
+        - DEPARTMENT
+        - UNIT
+        - CENTRAL_SERVICES
+        - UNIVERSITY_CENTRE
+        - CLINIC
+        - CLINICAL_UNIT
+      RisSubmissionMode:
+        - ONLINE_FULL
+        - ONLINE_PARTLY
+        - OFFLINE
+      RisTargetGroup:
+        - UNIVERSITY
+        - UNIVERSITY_OF_APPLIED_SCIENCES
+        - PRIVATE_UNIVERSITY
+        - RESEARCH_INSTITUTE
+        - COMPANY
+        - PRIVATE_NON_PROFIT
+        - INDEPENDENT_RESEARCHER
+        - GOVERNMENT
+        - UNIVERSITY_COLLEGE_OF_TEACHER_EDUCATION
+      RisTranslationEnum:
+        - O
+        - H
+        - M
+  - name: OAI-PMH metadata formats — TU Wien Research Data
+    surface: tu-wien:researchdata-oai
+    x-operator: institution
+    method: probed
+    evidence:
+      url: https://researchdata.tuwien.ac.at/oai2d?verb=ListMetadataFormats
+      status: 200
+    terms: [ oai_dc, datacite, oai_datacite ]
+  - name: OAI-PMH metadata formats — reposiTUm
+    surface: tu-wien:repositum-oai
+    x-operator: institution
+    method: probed
+    evidence:
+      url: https://repositum.tuwien.at/oai/openaire?verb=ListMetadataFormats
+      status: 200
+    terms: [ oai_dc, oai_openaire ]
+  - name: Identifier schemes in use on research records
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    evidence:
+      url: https://researchdata.tuwien.ac.at/api/records/pk47h-14959
+      status: 200
+    terms: [ doi, orcid, ror ]
+    note: >-
+      DOIs are minted through DataCite under prefix 10.48436; 514 public records carry ORCID
+      creator identifiers; affiliations resolve against ROR (TU Wien is ror.org/04d836q62).

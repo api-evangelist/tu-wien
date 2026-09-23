@@ -1,0 +1,135 @@
+---
+# TU Wien — conformance against the Kin Score `education` regime standards[].
+generated: '2026-08-30'
+method: derived
+probe: true
+probe_note: >-
+  Written by API Evangelist from live HTTP probes run on 2026-08-30. `derived` is the authorship
+  vocabulary term; every status code recorded below was actually returned to us. TU Wien did not
+  publish this file.
+source: live probes 2026-08-30; each hit names the exact URL and response that proves it
+regime: education
+regime_standards_checked:
+  [ scim, lti, oneroster, ed-fi, caliper, qti, oai-pmh, shibboleth, saml, orcid, datacite, crossref ]
+conformance:
+  - standard: oai-pmh
+    status: conformant
+    x-operator: institution
+    version: '2.0'
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/oai2d?verb=Identify
+        status: 200
+        detail: protocolVersion 2.0; granularity YYYY-MM-DDThh:mm:ssZ
+      - url: https://researchdata.tuwien.ac.at/oai2d?verb=ListMetadataFormats
+        status: 200
+        detail: 'metadataPrefix: oai_dc, datacite, oai_datacite'
+      - url: https://repositum.tuwien.at/oai/openaire?verb=Identify
+        status: 200
+        detail: 'repositoryName: DSpace-CRIS at TU Wien; earliestDatestamp 2020-09-03'
+      - url: https://repositum.tuwien.at/oai/openaire?verb=ListMetadataFormats
+        status: 200
+        detail: 'metadataPrefix: oai_dc, oai_openaire'
+    caveat: >-
+      Only the /oai/openaire context of reposiTUm answers; /oai/request and /oai/driver return
+      HTTP 500. Conformance is real but partial on that host.
+  - standard: datacite
+    status: conformant
+    x-operator: institution
+    version: DataCite Metadata Schema (via InvenioRDM)
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/api/records/pk47h-14959
+        status: 200
+        detail: 'pids.doi = {identifier: 10.48436/pk47h-14959, provider: datacite, client: datacite}'
+      - url: https://researchdata.tuwien.ac.at/api/records/pk47h-14959
+        status: 200
+        detail: >-
+          Accept: application/vnd.datacite.datacite+json returns
+          content-type application/vnd.datacite.datacite+json
+      - url: https://researchdata.tuwien.ac.at/oai2d?verb=ListMetadataFormats
+        status: 200
+        detail: datacite and oai_datacite metadata prefixes exposed for harvesting
+  - standard: orcid
+    status: conformant
+    x-operator: institution
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/api/records?q=metadata.creators.person_or_org.identifiers.scheme:orcid&size=3
+        status: 200
+        detail: >-
+          514 public records carry creator identifiers with scheme `orcid`
+          (e.g. 0000-0002-2197-2760 on record 2cna7-qkn89), queryable anonymously.
+  - standard: saml
+    status: conformant
+    x-operator: institution
+    version: SAML 2.0
+    evidence:
+      - url: https://eduid.at/md/aconet-registered.xml
+        status: 200
+        detail: >-
+          EntityDescriptor entityID https://idp.zid.tuwien.ac.at/saml2 with an IDPSSODescriptor,
+          SingleSignOnService and SingleLogoutService at
+          https://idp.zid.tuwien.ac.at/simplesaml/saml2/idp/SSOService.php
+  - standard: shibboleth
+    status: partial
+    x-operator: institution
+    evidence:
+      - url: https://eduid.at/md/aconet-registered.xml
+        status: 200
+        detail: >-
+          Six TU Wien service providers are registered as Shibboleth SPs in the same federation —
+          service.vsc.tuwien.ac.at/shibboleth, colab.tuwien.ac.at/saml, researchdata.tuwien.ac.at/saml,
+          ris-synergy.csd.tuwien.ac.at (Keycloak SAML broker), and two library entities.
+    caveat: >-
+      The IdP itself runs SimpleSAMLphp, not Shibboleth IdP software. Marked `partial` because the
+      Shibboleth SP profile is in use across TU Wien services while the IdP is a different
+      implementation of the same SAML 2.0 profile.
+  - standard: scim
+    status: not-found
+    evidence:
+      - url: https://researchdata.tuwien.ac.at/.well-known/openid-configuration
+        status: 404
+        detail: no SCIM endpoint discovered on any probed TU Wien host
+  - standard: lti
+    status: not-found
+    detail: >-
+      TU Wien's LMS (TUWEL, a Moodle deployment) was not probed as an institution-operated API
+      surface in this run; no public LTI registration or platform metadata was found.
+  - standard: oneroster
+    status: not-found
+  - standard: ed-fi
+    status: not-found
+  - standard: caliper
+    status: not-found
+  - standard: qti
+    status: not-found
+  - standard: crossref
+    status: not-found
+    detail: >-
+      TU Wien mints DOIs through DataCite (prefix 10.48436), not Crossref. Absence here is a
+      correct description of the institution's registration agency, not a gap.
+adjacent_standards_observed:
+  - standard: openid-connect
+    status: conformant
+    x-operator: institution
+    evidence:
+      - url: https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
+        status: 200
+        detail: >-
+          Keycloak realm operated on TU Wien infrastructure (128.131.33.132); issuer, authorization,
+          token and introspection endpoints all under the TU Wien host.
+  - standard: ris-synergy
+    status: conformant
+    x-operator: institution
+    detail: >-
+      The Austrian national research-information interface standard, whose project was led from
+      TU Wien. TU Wien implements the Funding endpoint in FUNDify.
+    evidence:
+      - url: https://raw.githubusercontent.com/tuwien-csd/fundify/main/backend/bootstrap/src/main/resources/META-INF/openapi.yml
+        status: 200
+        detail: 'paths under /api/ris-synergy/funding/v1/; tag "public" described as "RIS Synergy Funding API"'
+  - standard: openaire-guidelines
+    status: conformant
+    x-operator: institution
+    evidence:
+      - url: https://repositum.tuwien.at/oai/openaire?verb=ListMetadataFormats
+        status: 200
+        detail: oai_openaire metadata prefix served

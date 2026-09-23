@@ -1,0 +1,149 @@
+---
+# TU Wien — worked request examples across the institution-operated surfaces.
+generated: '2026-08-30'
+method: derived
+probe: true
+probe_note: >-
+  Written by API Evangelist from live HTTP probes run on 2026-08-30. `derived` is the authorship
+  vocabulary term; every status code recorded below was actually returned to us. TU Wien did not
+  publish this file.
+source: live HTTP probes run 2026-08-30 against each host, plus the FUNDify OpenAPI in openapi/_original/
+note: >-
+  Every example below was executed. The status code recorded is the status code returned.
+  Examples marked `method: derived` were constructed from the contract and NOT executed, because the
+  route requires a token we do not hold.
+examples:
+  - name: Search TU Wien Research Data records
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    request: GET https://researchdata.tuwien.ac.at/api/records?size=1
+    status: 200
+    content_type: application/json
+    notes: InvenioRDM 14.0 search response; `hits.hits[].links.doi` resolves to a 10.48436 DataCite DOI.
+  - name: Retrieve a single record by id
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    request: GET https://researchdata.tuwien.ac.at/api/records/pk47h-14959
+    status: 200
+    content_type: application/json
+  - name: Content-negotiate a record as DataCite JSON
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    request: >-
+      GET https://researchdata.tuwien.ac.at/api/records/pk47h-14959
+      (Accept: application/vnd.datacite.datacite+json)
+    status: 200
+    content_type: application/vnd.datacite.datacite+json
+    notes: Direct evidence of DataCite conformance — see conformance/tu-wien-education-standards.yml.
+  - name: Find records carrying ORCID creator identifiers
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    request: >-
+      GET https://researchdata.tuwien.ac.at/api/records?q=metadata.creators.person_or_org.identifiers.scheme:orcid&size=3
+    status: 200
+    notes: 514 records matched on 2026-08-30.
+  - name: List the funders vocabulary
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    request: GET https://researchdata.tuwien.ac.at/api/funders?size=1
+    status: 200
+  - name: Names vocabulary is closed to anonymous callers
+    surface: tu-wien:researchdata-api
+    x-operator: institution
+    method: probed
+    request: GET https://researchdata.tuwien.ac.at/api/names?size=1
+    status: 403
+    body: '{"status": 403, "message": "Permission denied."}'
+    notes: Recorded because a 403 is a real access boundary, not an outage.
+  - name: OAI-PMH Identify — research data repository
+    surface: tu-wien:researchdata-oai
+    x-operator: institution
+    method: probed
+    request: GET https://researchdata.tuwien.ac.at/oai2d?verb=Identify
+    status: 200
+    content_type: text/xml
+  - name: OAI-PMH ListMetadataFormats — research data repository
+    surface: tu-wien:researchdata-oai
+    x-operator: institution
+    method: probed
+    request: GET https://researchdata.tuwien.ac.at/oai2d?verb=ListMetadataFormats
+    status: 200
+    returns: [ oai_dc, datacite, oai_datacite ]
+  - name: OAI-PMH Identify — reposiTUm
+    surface: tu-wien:repositum-oai
+    x-operator: institution
+    method: probed
+    request: GET https://repositum.tuwien.at/oai/openaire?verb=Identify
+    status: 200
+    returns:
+      repositoryName: DSpace-CRIS at TU Wien
+      adminEmail: dspace@tiss.tuwien.ac.at
+      earliestDatestamp: '2020-09-03T08:56:09Z'
+  - name: OAI-PMH ListMetadataFormats — reposiTUm
+    surface: tu-wien:repositum-oai
+    x-operator: institution
+    method: probed
+    request: GET https://repositum.tuwien.at/oai/openaire?verb=ListMetadataFormats
+    status: 200
+    returns: [ oai_dc, oai_openaire ]
+  - name: The non-OpenAIRE OAI context is broken
+    surface: tu-wien:repositum-oai
+    x-operator: institution
+    method: probed
+    request: GET https://repositum.tuwien.at/oai/request?verb=Identify
+    status: 500
+    notes: >-
+      Only the /oai/openaire context answers. /oai/request and /oai/driver both return a Tomcat
+      HTTP 500 page. Recorded as found; this is TU Wien's defect to fix, not ours to hide.
+  - name: reposiTUm DSpace REST API refuses crawlers
+    surface: tu-wien:repositum-rest
+    x-operator: institution
+    method: probed
+    request: GET https://repositum.tuwien.at/server/api/core/items?size=1
+    status: 416
+    body: '416 please respect nofollow and noindex headers!'
+    notes: >-
+      The DSpace 7 REST layer is deployed but fronted by a crawler filter; /server/api itself
+      returned 503. Live-but-blocked, not absent.
+  - name: RIS Synergy OpenID Connect discovery
+    surface: tu-wien:ris-synergy-oidc
+    x-operator: institution
+    method: probed
+    request: GET https://ris-synergy.csd.tuwien.ac.at/auth/realms/ris-synergy/.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    notes: Keycloak realm operated by TU Wien Campus Software Development; issuer matches the host.
+  - name: FUNDify funding list requires a token
+    surface: tu-wien:fundify-funding
+    x-operator: institution
+    method: probed
+    request: GET https://fundify.arisnet.ac.at/api/ris-synergy/funding/v1/fundings
+    status: 401
+    notes: >-
+      401 with an empty body — the route exists and is protected. Every non-/api path on this host
+      returns the Angular SPA shell with status 200, so a 200 there is NOT evidence of an endpoint.
+  - name: FUNDify annotated calls for one university
+    surface: tu-wien:fundify-funding
+    x-operator: institution
+    method: derived
+    request: >-
+      GET https://fundify.arisnet.ac.at/api/ris-synergy/funding/v1/annotated-calls/university/{universityRisId}?runningCalls=true
+    status: not executed — bearer token required
+    source: openapi/_original/tu-wien-fundify-api-openapi.yml
+  - name: TU Wien SAML IdP metadata via the eduID.at aggregate
+    surface: tu-wien:saml-idp
+    x-operator: institution
+    method: probed
+    request: GET https://eduid.at/md/aconet-registered.xml
+    status: 200
+    content_type: application/samlmetadata+xml
+    returns:
+      entityID: https://idp.zid.tuwien.ac.at/saml2
+      SingleSignOnService: https://idp.zid.tuwien.ac.at/simplesaml/saml2/idp/SSOService.php
+    notes: >-
+      Seven TU Wien entities are registered in the ACOnet/eduID.at federation, one IdP and six SPs.
