@@ -236,31 +236,89 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RisWebLink:
+    RisSubject:
       type: object
       properties:
-        url:
+        fraction:
+          type: number
+        value:
+          type: string
+    RisDecisionProcess:
+      enum:
+      - PEER_REVIEW
+      - JURY
+      - BOARD_OF_TRUSTEES
+      type: string
+    RisFunding:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          $ref: '#/components/schemas/RisFundingType'
+        name:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisText'
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisIdentifier'
+        acronym:
           type: string
         description:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisText'
+        funder:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisFunder'
+        characteristics:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisFundingCharacteristic'
+        targetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisTargetGroup'
+        subjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisSubject'
+        careerStages:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisCareerStage'
+        fundingScheme:
+          $ref: '#/components/schemas/RisFundingType'
+        legalType:
+          $ref: '#/components/schemas/RisLegalType'
+        website:
+          type: array
+          items:
+            type: string
+    RisOrganisationFundingRoleEnum:
+      enum:
+      - EXECUTIVE_ORGANISATION
+      - JOINT_CALL_PARTNER
+      type: string
+    RisVolume:
+      type: object
+      properties:
+        currency:
           type: string
-    RisLegalType:
-      enum:
-      - PROJECT26
-      - PROJECT27
-      - INDIV
-      type: string
-    RisTargetGroup:
-      enum:
-      - UNIVERSITY
-      - UNIVERSITY_OF_APPLIED_SCIENCES
-      - PRIVATE_UNIVERSITY
-      - RESEARCH_INSTITUTE
-      - COMPANY
-      - PRIVATE_NON_PROFIT
-      - INDEPENDENT_RESEARCHER
-      - GOVERNMENT
-      - UNIVERSITY_COLLEGE_OF_TEACHER_EDUCATION
-      type: string
+        amount:
+          type: number
+    RisText:
+      type: object
+      properties:
+        lang:
+          type: string
+        trans:
+          $ref: '#/components/schemas/RisTranslationEnum'
+        text:
+          type: string
     RisUniversityContact:
       type: object
       properties:
@@ -274,43 +332,113 @@ components:
           type: string
         department:
           type: string
-    RisText:
-      type: object
-      properties:
-        lang:
-          type: string
-        trans:
-          $ref: '#/components/schemas/RisTranslationEnum'
-        text:
-          type: string
-    RisTimeSpan:
-      type: object
-      properties:
-        days:
-          format: int32
-          type: integer
-        months:
-          format: int32
-          type: integer
-        years:
-          format: int32
-          type: integer
     RisTranslationEnum:
       enum:
       - O
       - H
       - M
       type: string
-    RisIdentifierTypeEnum:
+    RisEligibleApplicantsRegion:
       enum:
-      - CROSSREF_GRANTID
-      - PROJECT_NUMBER
-      - APPLICATION_NUMBER
-      - ORCID
-      - ROR
-      - RINGGOLD
-      - RIS_SYNERGY
+      - VIENNA
+      - BURGENLAND
+      - LOWER_AUSTRIA
+      - CARINTHIA
+      - UPPER_AUSTRIA
+      - SALZBURG
+      - STYRIA
+      - TYROL
+      - VORARLBERG
       type: string
+    RisIdentifier:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/RisIdentifierTypeEnum'
+        value:
+          type: string
+    RisCallAnnotation:
+      type: object
+      properties:
+        internalDeadline:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisText'
+        keywords:
+          type: array
+          items:
+            type: string
+        targetGroups:
+          type: array
+          items:
+            type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisWebLink'
+        contact:
+          $ref: '#/components/schemas/RisUniversityContact'
+    RisFundingType:
+      enum:
+      - PROGRAMME
+      - CALL
+      - ONGOING_CALL
+      - RESEARCH_CONTRACT
+      - AWARD
+      - GRANT
+      - SCHOLARSHIP
+      - SEMESTER_GRANT
+      - SUMMER_GRANT
+      - PRACTICAL_TRAINING
+      - SUBSIDY
+      - RESEARCH_ALLOWANCE
+      type: string
+    RisCallStage:
+      type: object
+      properties:
+        number:
+          type: string
+        callStageStart:
+          $ref: '#/components/schemas/OffsetDateTime'
+        callStageEnd:
+          $ref: '#/components/schemas/OffsetDateTime'
+        callStageDescription:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisText'
+    RisContact:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    RisAnnotatedCall:
+      type: object
+      properties:
+        call:
+          $ref: '#/components/schemas/RisCall'
+        annotation:
+          $ref: '#/components/schemas/RisCallAnnotation'
+    RisBaseFunding:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          $ref: '#/components/schemas/RisFundingType'
+        name:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisText'
+        acronym:
+          type: string
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RisIdentifier'
     RisOrgUnit:
       type: object
       properties:
@@ -346,39 +474,11 @@ components:
           $ref: '#/components/schemas/OffsetDateTime'
         website:
           type: string
-    RisEligibleApplicantsRegion:
+    RisLegalType:
       enum:
-      - VIENNA
-      - BURGENLAND
-      - LOWER_AUSTRIA
-      - CARINTHIA
-      - UPPER_AUSTRIA
-      - SALZBURG
-      - STYRIA
-      - TYROL
-      - VORARLBERG
-      type: string
-    RisAnnotatedCall:
-      type: object
-      properties:
-        call:
-          $ref: '#/components/schemas/RisCall'
-        annotation:
-          $ref: '#/components/schemas/RisCallAnnotation'
-    RisCareerStage:
-      enum:
-      - EXPERTS
-      - STUDENTS
-      - DOCTORAL_STUDENTS
-      - EARLY_STAGE_RESEARCHERS
-      - MID_CAREER_RESEARCHERS
-      - ESTABLISHED_RESEARCHERS
-      - UNDERGRADUATE_STUDENTS
-      - GRADUATE_STUDENTS
-      - POSTGRADUATE_STUDENTS
-      - POSTDOCTORAL_RESEARCHERS
-      - SCIENTISTS
-      - SCIENTIFIC_INSTITUTION
+      - PROJECT26
+      - PROJECT27
+      - INDIV
       type: string
     RisOrganisationTypeEnum:
       enum:
@@ -393,127 +493,12 @@ components:
       - CLINIC
       - CLINICAL_UNIT
       type: string
-    RisIdentifier:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/RisIdentifierTypeEnum'
-        value:
-          type: string
-    RisOrganisationFundingRoleEnum:
-      enum:
-      - EXECUTIVE_ORGANISATION
-      - JOINT_CALL_PARTNER
-      type: string
-    RisDecisionProcess:
-      enum:
-      - PEER_REVIEW
-      - JURY
-      - BOARD_OF_TRUSTEES
-      type: string
-    RisSubmissionMode:
-      enum:
-      - ONLINE_FULL
-      - ONLINE_PARTLY
-      - OFFLINE
-      type: string
     RisLevelEnum:
       enum:
       - LEVEL_1
       - LEVEL_2
       - Level_3
       type: string
-    RisFundingType:
-      enum:
-      - PROGRAMME
-      - CALL
-      - ONGOING_CALL
-      - RESEARCH_CONTRACT
-      - AWARD
-      - GRANT
-      - SCHOLARSHIP
-      - SEMESTER_GRANT
-      - SUMMER_GRANT
-      - PRACTICAL_TRAINING
-      - SUBSIDY
-      - RESEARCH_ALLOWANCE
-      type: string
-    RisContact:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-        phone:
-          type: string
-    RisBaseFunding:
-      type: object
-      properties:
-        id:
-          type: string
-        type:
-          $ref: '#/components/schemas/RisFundingType'
-        name:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisText'
-        acronym:
-          type: string
-        identifiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisIdentifier'
-    RisCallAnnotation:
-      type: object
-      properties:
-        internalDeadline:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisText'
-        keywords:
-          type: array
-          items:
-            type: string
-        targetGroups:
-          type: array
-          items:
-            type: string
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisWebLink'
-        contact:
-          $ref: '#/components/schemas/RisUniversityContact'
-    RisCallStage:
-      type: object
-      properties:
-        number:
-          type: string
-        callStageStart:
-          $ref: '#/components/schemas/OffsetDateTime'
-        callStageEnd:
-          $ref: '#/components/schemas/OffsetDateTime'
-        callStageDescription:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisText'
-    RisEligibleApplicantsScope:
-      enum:
-      - NATIONAL
-      - REGIONAL
-      type: string
-    RisFunder:
-      type: object
-      properties:
-        funderType:
-          $ref: '#/components/schemas/RisOrganisationFundingRoleEnum'
-        funder:
-          $ref: '#/components/schemas/RisOrgUnit'
-    OffsetDateTime:
-      format: date-time
-      type: string
-      example: 2022-03-10 12:15:50-04:00
     RisCall:
       type: object
       properties:
@@ -648,82 +633,57 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/RisText'
-    RisSubject:
+    RisTimeSpan:
       type: object
       properties:
-        fraction:
-          type: number
-        value:
-          type: string
-    RisFunding:
+        days:
+          format: int32
+          type: integer
+        months:
+          format: int32
+          type: integer
+        years:
+          format: int32
+          type: integer
+    RisWebLink:
       type: object
       properties:
-        id:
-          type: string
-        type:
-          $ref: '#/components/schemas/RisFundingType'
-        name:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisText'
-        identifiers:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisIdentifier'
-        acronym:
+        url:
           type: string
         description:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisText'
+          type: string
+    RisCareerStage:
+      enum:
+      - EXPERTS
+      - STUDENTS
+      - DOCTORAL_STUDENTS
+      - EARLY_STAGE_RESEARCHERS
+      - MID_CAREER_RESEARCHERS
+      - ESTABLISHED_RESEARCHERS
+      - UNDERGRADUATE_STUDENTS
+      - GRADUATE_STUDENTS
+      - POSTGRADUATE_STUDENTS
+      - POSTDOCTORAL_RESEARCHERS
+      - SCIENTISTS
+      - SCIENTIFIC_INSTITUTION
+      type: string
+    OffsetDateTime:
+      format: date-time
+      type: string
+      example: 2022-03-10 12:15:50-04:00
+    RisFunder:
+      type: object
+      properties:
+        funderType:
+          $ref: '#/components/schemas/RisOrganisationFundingRoleEnum'
         funder:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisFunder'
-        characteristics:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisFundingCharacteristic'
-        targetGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisTargetGroup'
-        subjects:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisSubject'
-        careerStages:
-          type: array
-          items:
-            $ref: '#/components/schemas/RisCareerStage'
-        fundingScheme:
-          $ref: '#/components/schemas/RisFundingType'
-        legalType:
-          $ref: '#/components/schemas/RisLegalType'
-        website:
-          type: array
-          items:
-            type: string
-    RisPostAddress:
-      type: object
-      properties:
-        countryCode:
-          type: string
-        addrline1:
-          type: string
-        postCode:
-          type: string
-        cityTown:
-          type: string
-        stateOfCountry:
-          type: string
-    RisVolume:
-      type: object
-      properties:
-        currency:
-          type: string
-        amount:
-          type: number
+          $ref: '#/components/schemas/RisOrgUnit'
+    RisSubmissionMode:
+      enum:
+      - ONLINE_FULL
+      - ONLINE_PARTLY
+      - OFFLINE
+      type: string
     RisFundingCharacteristic:
       enum:
       - INTERNATIONAL_PROGRAMME
@@ -739,3 +699,43 @@ components:
       - NETWORKING
       - MOBILITY_PROGRAMME
       type: string
+    RisEligibleApplicantsScope:
+      enum:
+      - NATIONAL
+      - REGIONAL
+      type: string
+    RisIdentifierTypeEnum:
+      enum:
+      - CROSSREF_GRANTID
+      - PROJECT_NUMBER
+      - APPLICATION_NUMBER
+      - ORCID
+      - ROR
+      - RINGGOLD
+      - RIS_SYNERGY
+      type: string
+    RisTargetGroup:
+      enum:
+      - UNIVERSITY
+      - UNIVERSITY_OF_APPLIED_SCIENCES
+      - PRIVATE_UNIVERSITY
+      - RESEARCH_INSTITUTE
+      - COMPANY
+      - PRIVATE_NON_PROFIT
+      - INDEPENDENT_RESEARCHER
+      - GOVERNMENT
+      - UNIVERSITY_COLLEGE_OF_TEACHER_EDUCATION
+      type: string
+    RisPostAddress:
+      type: object
+      properties:
+        countryCode:
+          type: string
+        addrline1:
+          type: string
+        postCode:
+          type: string
+        cityTown:
+          type: string
+        stateOfCountry:
+          type: string
