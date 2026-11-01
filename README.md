@@ -1,4 +1,4 @@
-# TU Wien (tu-wien)
+# TU Wien
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,58 +64,140 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-TU Wien (Vienna University of Technology) is Austria's largest science and technology university, founded in 1815, with more than 30,000 students and eight faculties, and ranked #190 in the QS World University Rankings 2025. This repository catalogs TU Wien's public, documented developer/API footprint as an [APIs.json](https://apisjson.org) profile. That footprint centers on research infrastructure — a research data repository REST API and OAI-PMH metadata interfaces — rather than a single unified developer portal.
+TU Wien (Vienna University of Technology) is Austria's largest science and technology university, founded in 1815, with more than 30,000 students across eight faculties. It operates no central developer portal, publishes no API key issuance page and offers no unified developer credential, and most of what looks like a TU Wien API is a product it bought rather than built. What it does operate is real and unusually varied for the cohort: a self-hosted InvenioRDM research-data repository whose REST API answers anonymously, two live OAI-PMH endpoints, a DSpace-CRIS institutional repository, the TISS student-information REST API (versioned, structured errors, documentation behind TU Wien SSO), a SAML 2.0 identity provider registered in the ACOnet/eduID.at federation and interfederated into eduGAIN, and — the one genuinely engineered contract — the FUNDify funding API, written and maintained by TU Wien Campus Software Development for the Austrian RIS Synergy network the university led. Its library discovery layer is a tenant surface on the OBVSG consortium's Ex Libris Primo platform, not TU Wien engineering. Conformance is concentrated in research infrastructure: OAI-PMH 2.0, DataCite, ORCID and SAML are all verified live; SCIM, LTI, OneRoster, Ed-Fi, Caliper and QTI are absent.
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/tu-wien/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=tu-wien-api-evangelist&utm_content=repo
+**Areas:** University · Higher Education · Education · Technical University · Austria · Europe · Research Data · Research Repository · Open Access · OAI-PMH · Identity Federation · Research Computing
 
-## Type
+## TU Wien on APIs.io
 
-- Index
-- Consumer
-- 3rd-Party
+Everything profiled for TU Wien is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/tu-wien/](https://apis.io/providers/tu-wien/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (9)
 
-Education, Higher Education, University, Research Data, Open Access, Repository, OAI-PMH, InvenioRDM, Austria, Europe
+- [TU Wien Research Data REST API](https://apis.io/apis/tu-wien/researchdata-api/) — Public REST API of the TU Wien Research Data repository, running InvenioRDM 14.0. Records, communities, affiliations, funders and vocabularies are readable…
+- [TU Wien Research Data OAI-PMH](https://apis.io/apis/tu-wien/researchdata-oai/) — OAI-PMH 2.0 harvesting interface for the TU Wien Research Data repository. Verified live on 2026-08-30 with Identify and ListMetadataFormats; serves oai_dc,…
+- [reposiTUm OAI-PMH](https://apis.io/apis/tu-wien/repositum-oai/) — OAI-PMH 2.0 interface for reposiTUm, the open-access institutional repository of TU Wien, implemented on DSpace-CRIS by TU Wien Campus IT. Serves oai_dc and…
+- [reposiTUm DSpace REST API](https://apis.io/apis/tu-wien/repositum-rest/) — The DSpace 7 REST layer of reposiTUm is deployed but fronted by a crawler filter: /server/api returned 503 and /server/api/core/items returned 416 with the…
+- [TISS REST API](https://apis.io/apis/tu-wien/tiss-api/) — REST API of TISS, TU Wien's Information Systems & Services platform — the course catalogue, curricula, org units, people and room data behind…
+- [RIS Synergy Identity Broker (OpenID Connect)](https://apis.io/apis/tu-wien/ris-synergy-oidc/) — Keycloak realm TU Wien operates as the identity broker for the Austrian RIS Synergy network, with SAML brokering endpoints for eleven Austrian universities.…
+- [TU Wien SAML 2.0 Identity Provider (eduID.at / eduGAIN)](https://apis.io/apis/tu-wien/saml-idp/) — TU Wien's institutional identity provider, registered in the Austrian ACOnet/eduID.at federation and interfederated into eduGAIN. Machine-readable SAML 2.0…
+- [CatalogPlus library discovery (Ex Libris Primo, OBVSG-hosted)](https://apis.io/apis/tu-wien/catalogplus/) — TU Wien's library discovery layer. Recorded as a tenant relationship, which is a real institutional fact, so that no Ex Libris contract is ever scored as TU…
+- [TU Wien Public API](https://apis.io/apis/tu-wien/tu-wien-public-api/) — RIS Synergy Funding API
 
-## APIs
+### Published properties
 
-- **TU Wien Research Data REST API** — Public InvenioRDM REST API for records, metadata, search and file content; reads are public, writes require a bearer token. Docs: https://researchdata.tuwien.ac.at/tuw/about/api (base: `https://researchdata.tuwien.ac.at/api`)
-- **TU Wien Research Data OAI-PMH** — OAI-PMH metadata harvesting for the Research Data repository. Endpoint: `https://researchdata.tuwien.ac.at/oai2d`
-- **reposiTUm OAI-PMH** — OAI-PMH metadata harvesting for the reposiTUm open-access institutional repository (DSpace-CRIS). Endpoint: `https://repositum.tuwien.at/oai/openaire`. Docs: https://www.it.tuwien.ac.at/en/services/research-projects-publications/repositum
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Plans
+#### JSON Schema (1)
 
-See [plans/tu-wien-plans-pricing.yml](plans/tu-wien-plans-pricing.yml).
+The data models the API reads and writes.
 
-## Rate Limits
+- [FUNDify / RIS Synergy funding objects](https://apis.io/schemas/tu-wien/tu-wien-fundify-funding/)
 
-See [rate-limits/tu-wien-rate-limits.yml](rate-limits/tu-wien-rate-limits.yml).
+#### JSON-LD (1)
 
-## FinOps
+Linked-data contexts for the provider's vocabulary.
 
-See [finops/tu-wien-finops.yml](finops/tu-wien-finops.yml).
+- [Tu Wien Context](https://apis.io/jsonld/tu-wien/tu-wien-context/)
 
-## Timestamps
+#### Governance rules (1)
 
-- Created: 2026-06-03
-- Modified: 2026-06-03
+Spectral rulesets for the provider's contracts.
 
-## Common Properties
+- [TU Wien — spectral rules](https://apis.io/rules/tu-wien/tu-wien-spectral/)
 
-- Website: https://www.tuwien.at/en/
-- GitHub: https://github.com/tuwien-csd
-- LinkedIn: https://www.linkedin.com/school/tuwien
-- Plans: plans/tu-wien-plans-pricing.yml
-- Rate Limits: rate-limits/tu-wien-rate-limits.yml
-- FinOps: finops/tu-wien-finops.yml
-- Review: review.yml
+#### Security (3)
 
-## Notes
+Authentication, trust centre, and vulnerability disclosure.
 
-All APIs and URLs were probed live on 2026-06-03; no endpoints were fabricated. The Research Data REST API and both OAI-PMH endpoints returned valid responses. The bare `https://repositum.tuwien.at/oai/request` path returned HTTP 500 when called without an OAI verb, so the working OpenAIRE endpoint is cataloged instead. TISS (study/course system) and TUWEL (Moodle) are live but expose no public, documented developer API. There is no single official university-wide GitHub organization; open-source code is fragmented across departmental orgs such as `tuwien-csd` and `TUWBIB`. The university has no general-purpose public developer portal — its documented API surface is research-repository oriented.
+- [Tu Wien Authentication](https://apis.io/security/tu-wien/tu-wien-authentication/)
+- [Tu Wien Domain Security](https://apis.io/security/tu-wien/tu-wien-domain-security/)
+- [Tu Wien Vulnerability Disclosure](https://apis.io/security/tu-wien/tu-wien-vulnerability-disclosure/)
 
-## Maintainers
+#### OAuth scopes (1)
 
-- Kin Lane — kin@apievangelist.com
+The permissions the API asks for.
+
+- [Tu Wien Scopes](https://apis.io/scopes/tu-wien/tu-wien-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Tu Wien Plans Pricing](https://apis.io/plans/tu-wien/tu-wien-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Tu Wien Rate Limits](https://apis.io/rate-limits/tu-wien/tu-wien-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Tu Wien Finops](https://apis.io/finops/tu-wien/tu-wien-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.tuwien.at/en/)
+- [Documentation](https://researchdata.tuwien.ac.at/tuw/about/api)
+- [Blog](https://www.tuwien.at/en/tu-wien/news/news-articles)
+- [Terms of service](https://www.tuwien.at/en/imprint)
+- [Privacy policy](https://www.tuwien.at/fileadmin/Datenschutz/Data_Protection_Declaration_Websites.pdf)
+- [GitHub](https://github.com/tuwien-csd)
+
+## API Evangelist rating
+
+**Kin Score 36.8** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 50.6 |
+| Contract governance | 15.2 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 26.3 |
+
+**Agent readiness 20.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | — |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 40.2** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/tu-wien/](https://apis.io/providers/tu-wien/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for TU Wien: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/tu-wien/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
